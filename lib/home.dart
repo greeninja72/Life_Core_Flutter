@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'post.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -6,6 +7,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _productId = "test1111";
+
+  int _indexNum = 0;
+
+  Future<Post> refresh;
+
+  @override
+  initState() {
+    super.initState();
+    refresh = fetchPost(_productId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +39,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: EdgeInsets.all(8.0),
-            )
+            ),
           ],
         ),
         body: Center(
@@ -38,15 +51,44 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      SizedBox(
-                        width: 100,
-                        height: 160,
-                        child: Card(
-                          color: Colors.green,
-                        ),
+                      FutureBuilder<Post>(
+                        future: refresh,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data.water <= 2000) {
+                              return SizedBox(
+                                width: 100,
+                                height: 160,
+                                child: Card(color: Colors.red),
+                              );
+                            } else if (snapshot.data.water > 2000 &&
+                                snapshot.data.water <= 4000) {
+                              return SizedBox(
+                                width: 100,
+                                height: 160,
+                                child: Card(color: Colors.yellow),
+                              );
+                            } else {
+                              return SizedBox(
+                                width: 100,
+                                height: 160,
+                                child: Card(color: Colors.green),
+                              );
+                            }
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          // By default, show a loading spinner.
+                          return CircularProgressIndicator();
+                        },
                       ),
                       RaisedButton(
-                        onPressed: null,
+                        child: Text('refresh'),
+                        onPressed: () {
+                          setState(() {
+                            refresh = fetchPost(_productId);
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -55,17 +97,42 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Column(
                     children: <Widget>[
-                      Text(
-                        'Water Size',
-                        textScaleFactor: 2.0,
+                      FutureBuilder<Post>(
+                        future: refresh,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            int water = snapshot.data.water;
+
+                            return Text(
+                              'Water Size : ' + water.toString(),
+                              textScaleFactor: 2.0,
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          // By default, show a loading spinner.
+                          return CircularProgressIndicator();
+                        },
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
                       ),
-                      Text(
-                        'Status: Great',
-                        textScaleFactor: 1.5,
-                      )
+                      FutureBuilder<Post>(
+                        future: refresh,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            bool notify = snapshot.data.notify;
+                            return Text(
+                              'Status : ' + notify.toString(),
+                              textScaleFactor: 2.0,
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          // By default, show a loading spinner.
+                          return CircularProgressIndicator();
+                        },
+                      ),
                     ],
                   ),
                 ],
@@ -74,7 +141,8 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(8.0),
               ),
               RaisedButton(
-                onPressed: null,
+                child: Text('filter'),
+                onPressed: () {},
               ),
             ],
           ),
