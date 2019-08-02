@@ -9,8 +9,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String _productId = "test1111";
 
-  int _indexNum = 0;
-
   Future<Post> refresh;
 
   @override
