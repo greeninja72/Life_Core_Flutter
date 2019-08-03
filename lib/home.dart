@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'post.dart';
+import 'email.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -33,7 +34,9 @@ class _HomePageState extends State<HomePage> {
                 Icons.email,
                 size: 40.0,
               ),
-              onPressed: () {},
+              onPressed: () {
+                emailSend();
+              },
             ),
             Padding(
               padding: EdgeInsets.all(8.0),
