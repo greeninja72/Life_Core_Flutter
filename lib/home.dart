@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'post.dart';
 import 'email.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
+  final FirebaseUser user;
+
+  HomePage(this.user);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   String _productId = "test1111";
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<Post> refresh;
 
@@ -21,21 +28,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'LifeCore',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: Scaffold(
         appBar: AppBar(
           title: Text('Life Core'),
           actions: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.email,
-                size: 40.0,
+                Icons.exit_to_app,
+                size: 35.0,
               ),
               onPressed: () {
-                emailSend();
+                FirebaseAuth.instance.signOut();
+                _googleSignIn.signOut();
               },
             ),
             Padding(

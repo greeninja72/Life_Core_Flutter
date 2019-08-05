@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1043973775128",
+    "firebase_url": "https://lifecore-d07d8.firebaseio.com",
+    "project_id": "lifecore-d07d8",
+    "storage_bucket": "lifecore-d07d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043973775128:android:33661f216fd8842c",
+        "android_client_info": {
+          "package_name": "com.example.lifecore_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043973775128-j76e4973g2ht339ue9fdd5lc5qo8kg75.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lifecore_flutter",
+            "certificate_hash": "bc3d8d6dc122bf12544524753e0acf933589cf7e"
+          }
+        },
+        {
+          "client_id": "1043973775128-j1hip1mn1hf5cgoh165ba1s619c2jb4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVhQN6_5Y3XZobutiuhz3FgkgQgMx56bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043973775128-j1hip1mn1hf5cgoh165ba1s619c2jb4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
