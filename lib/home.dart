@@ -147,7 +147,9 @@ class _HomePageState extends State<HomePage> {
               ),
               RaisedButton(
                 child: Text('filter'),
-                onPressed: () {},
+                onPressed: () {
+                  emailSend();
+                },
               ),
             ],
           ),

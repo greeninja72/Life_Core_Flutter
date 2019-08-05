@@ -2,8 +2,8 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 Future<void> emailSend() async {
   final Email email = Email(
-    body: 'Life Core',
-    subject: 'Test Message',
+    body: 'Test Message',
+    subject: 'Life Core',
     recipients: ['sh183694@gmail.com'],
   );
 
