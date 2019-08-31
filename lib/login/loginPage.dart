@@ -12,30 +12,54 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Life Core',
-                textScaleFactor: 4.0,
-              ),
-              Padding(
-                padding: EdgeInsets.all(48.0),
-              ),
-              SignInButton(
-                Buttons.Google,
-                onPressed: () {
-                  _handleSignIn().then((user) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage(user)));
-                  });
-                },
-              ),
-            ],
+      title: 'Life Core',
+      home: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/login.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image(
+                  image: AssetImage('images/logo.png'),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                ),
+                Text(
+                  '라이프코어 살균수기',
+                  textScaleFactor: 2.0,
+                  style: TextStyle(color: Colors.white),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(72.0),
+                ),
+                SignInButton(
+                  Buttons.Google,
+                  onPressed: () {
+                    _handleSignIn().then(
+                      (user) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(user),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.all(48.0),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -44,6 +68,7 @@ class LoginPage extends StatelessWidget {
 
   Future<FirebaseUser> _handleSignIn() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    // backButton Error
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     FirebaseUser user = await _auth.signInWithCredential(
         GoogleAuthProvider.getCredential(
