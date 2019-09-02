@@ -11,55 +11,52 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Life Core',
-      home: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/login.png'),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('images/login.png'),
+          fit: BoxFit.cover,
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image(
-                  image: AssetImage('images/logo.png'),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                ),
-                Text(
-                  '라이프코어 살균수기',
-                  textScaleFactor: 2.0,
-                  style: TextStyle(color: Colors.white),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(72.0),
-                ),
-                SignInButton(
-                  Buttons.Google,
-                  onPressed: () {
-                    _handleSignIn().then(
-                      (user) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(user),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.all(48.0),
-                ),
-              ],
-            ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image(
+                image: AssetImage('images/logo.png'),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+              ),
+              Text(
+                '라이프코어 살균수기',
+                textScaleFactor: 2.0,
+                style: TextStyle(color: Colors.white),
+              ),
+              Padding(
+                padding: EdgeInsets.all(72.0),
+              ),
+              SignInButton(
+                Buttons.Google,
+                onPressed: () {
+                  _handleSignIn().then(
+                    (user) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(user),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.all(48.0),
+              ),
+            ],
           ),
         ),
       ),

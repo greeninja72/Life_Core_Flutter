@@ -8,15 +8,31 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<FirebaseUser>(
-      stream: FirebaseAuth.instance.onAuthStateChanged,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return HomePage(snapshot.data);
-        } else {
-          return LoginPage();
-        }
-      },
+    return MaterialApp(
+      title: 'Life Core',
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
+      home: StreamBuilder<FirebaseUser>(
+        stream: FirebaseAuth.instance.onAuthStateChanged,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return HomePage(snapshot.data);
+          } else {
+            return LoginPage();
+          }
+        },
+      ),
     );
+    // return StreamBuilder<FirebaseUser>(
+    //   stream: FirebaseAuth.instance.onAuthStateChanged,
+    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+    //     if (snapshot.hasData) {
+    //       return HomePage(snapshot.data);
+    //     } else {
+    //       return LoginPage();
+    //     }
+    //   },
+    // );
   }
 }

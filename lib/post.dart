@@ -26,9 +26,9 @@ class Post {
 }
 
 Future<Post> fetchPost(String str) async {
-  final response = await http.post(
-    'http://ec2-3-15-217-14.us-east-2.compute.amazonaws.com:3000/users/' + str,
-  );
+  final response = await http.get(
+      'http://ec2-3-15-217-14.us-east-2.compute.amazonaws.com:3000/users/' +
+          str);
 
   if (response.statusCode == 200) {
     return Post.fromjson(json.decode(response.body)[0]);
