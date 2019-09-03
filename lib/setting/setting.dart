@@ -1,38 +1,27 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:lifecore_flutter/home.dart';
+import 'package:lifecore_flutter/login/loginPage.dart';
 
-class Setting extends StatefulWidget {
-  @override
-  _SettingState createState() => _SettingState();
-}
-
-class _SettingState extends State<Setting> {
-  final GoogleSignIn si = GoogleSignIn();
-
+class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Setting'),
-        ),
-        body: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Setting'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
               child: Text('로그아웃'),
-
-              // logout
               onPressed: () {
-                FirebaseAuth.instance.signOut();
-                si.signOut();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               },
             ),
             RaisedButton(
-              child: Text('로그아웃'),
-
-              // logout
+              child: Text('뒤로가기'),
               onPressed: () {
                 Navigator.pop(context);
               },

@@ -24,15 +24,5 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
-    // return StreamBuilder<FirebaseUser>(
-    //   stream: FirebaseAuth.instance.onAuthStateChanged,
-    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //     if (snapshot.hasData) {
-    //       return HomePage(snapshot.data);
-    //     } else {
-    //       return LoginPage();
-    //     }
-    //   },
-    // );
   }
 }
