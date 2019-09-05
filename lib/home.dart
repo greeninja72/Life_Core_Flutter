@@ -16,18 +16,48 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _productId = "LCWF19JL001";
+  String productId = "LCWF19JL001";
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   var now = DateTime.now();
+  var year = DateTime.now().year.toString() + '년 ';
+  var month = DateTime.now().month.toString() + '월 ';
+  var day = DateTime.now().day.toString() + '일 ';
+
+  String weekday() {
+    switch (DateTime.now().weekday) {
+      case 0:
+        return '일';
+        break;
+      case 1:
+        return '월';
+        break;
+      case 2:
+        return '화';
+        break;
+      case 3:
+        return '수';
+        break;
+      case 4:
+        return '목';
+        break;
+      case 5:
+        return '금';
+        break;
+      case 6:
+        return '토';
+        break;
+      default:
+    }
+  }
 
   Future<Post> refresh;
 
   @override
   initState() {
     super.initState();
-    refresh = fetchPost(_productId);
+    refresh = fetchPost(productId);
   }
 
   @override
@@ -48,19 +78,33 @@ class _HomePageState extends State<HomePage> {
           ),
           preferredSize: Size.fromHeight(16.0),
         ),
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(
+        //       Icons.refresh,
+        //       size: 30.0,
+        //       color: Colors.black,
+        //     ),
+        //     onPressed: () {
+        //       setState(() {
+        //         refresh = fetchPost(productId);
+        //       });
+        //     },
+        //   ),
+        // ],
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              size: 30.0,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              setState(() {
-                refresh = fetchPost(_productId);
-              });
-            },
-          ),
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text('새로고침'),
+                value: 1,
+              ),
+              PopupMenuItem(
+                child: Text('로그아웃'),
+                value: 2,
+              ),
+            ],
+          )
         ],
       ),
       body: Column(
@@ -73,14 +117,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(4.0),
           ),
           Text(
-            now.year.toString() +
-                '년 ' +
-                now.month.toString() +
-                '월 ' +
-                now.day.toString() +
-                '일 ' +
-                now.weekday.toString() +
-                '요일',
+            year + month + day + weekday() + '요일',
             textScaleFactor: 1.5,
           ),
           Padding(
@@ -96,125 +133,29 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            Stack(
-                              children: <Widget>[
-                                Image(
-                                  image: AssetImage('images/water.png'),
-                                ),
-                                Container(
-                                  height: 90,
-                                  width: 75,
-                                  alignment: Alignment.bottomCenter,
-                                  child: SizedBox(
-                                    height: 35,
-                                    width: 75,
-                                    child: Card(
-                                      color: Colors.transparent,
-                                      elevation: 0.0,
-                                      child: FutureBuilder<Post>(
-                                        future: refresh,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            int water = snapshot.data.water;
-
-                                            return Text(
-                                              ' ' +
-                                                  (water / 100).toString() +
-                                                  'L',
-                                              textScaleFactor: 1.5,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            );
-                                          } else if (snapshot.hasError) {
-                                            return Text("${snapshot.error}");
-                                          }
-                                          // By default, show a loading spinner.
-                                          return CircularProgressIndicator();
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            Image(
+                              image: AssetImage('images/water.png'),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(4.0),
+                              padding: EdgeInsets.all(12.0),
                             ),
                             Text(
                               '오늘의 살균수 사용량',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(4.0),
-                            ),
-                            RaisedButton(
-                              child: Text('상세보기 >'),
-                              onPressed: () {},
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0)),
-                            ),
                           ],
                         ),
                         Column(
                           children: <Widget>[
-                            Stack(
-                              children: <Widget>[
-                                Image(
-                                  image: AssetImage('images/filter.png'),
-                                ),
-                                Container(
-                                  height: 75,
-                                  width: 104,
-                                  alignment: Alignment.bottomRight,
-                                  child: SizedBox(
-                                    height: 35,
-                                    width: 75,
-                                    child: Card(
-                                      color: Colors.transparent,
-                                      elevation: 0.0,
-                                      child: FutureBuilder<Post>(
-                                        future: refresh,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            int filter = snapshot.data.filter;
-
-                                            return Text(
-                                              ' ' + filter.toString() + '%',
-                                              textAlign: TextAlign.center,
-                                              textScaleFactor: 1.25,
-                                              style: TextStyle(
-                                                  color:
-                                                      Colors.tealAccent[400]),
-                                            );
-                                          } else if (snapshot.hasError) {
-                                            return Text("${snapshot.error}");
-                                          }
-                                          // By default, show a loading spinner.
-                                          return CircularProgressIndicator();
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            Image(
+                              image: AssetImage('images/filter.png'),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(4.0),
+                              padding: EdgeInsets.all(12.0),
                             ),
                             Text(
                               '필터잔량',
                               style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(4.0),
-                            ),
-                            FlatButton(
-                              child: Text(
-                                '상세보기 >',
-                                style: TextStyle(color: Colors.tealAccent[400]),
-                              ),
-                              onPressed: () {},
                             ),
                           ],
                         ),
@@ -229,6 +170,82 @@ class _HomePageState extends State<HomePage> {
                           child: Card(
                             color: Colors.black12,
                           ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(20.0),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 60,
+                              width: 160,
+                              child: Card(
+                                color: Colors.transparent,
+                                elevation: 0.0,
+                                child: FutureBuilder<Post>(
+                                  future: refresh,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      int water = snapshot.data.water;
+                                      double waterDouble = water / 100;
+
+                                      return Text(
+                                        waterDouble.roundToDouble().toString() +
+                                            'L',
+                                        textScaleFactor: 1.5,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text("${snapshot.error}");
+                                    }
+                                    // By default, show a loading spinner.
+                                    return CircularProgressIndicator();
+                                  },
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(4.0),
+                            ),
+                            SizedBox(
+                              height: 80,
+                              width: 80,
+                              child: Card(
+                                color: Colors.transparent,
+                                elevation: 0.0,
+                                child: FutureBuilder<Post>(
+                                  future: refresh,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      int filter = snapshot.data.filter;
+                                      double filterDouble = filter / 4000 * 100;
+
+                                      return Text(
+                                        filterDouble
+                                                .roundToDouble()
+                                                .toString() +
+                                            '%',
+                                        textAlign: TextAlign.center,
+                                        textScaleFactor: 1.25,
+                                        style: TextStyle(
+                                            color: Colors.tealAccent[400]),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text("${snapshot.error}");
+                                    }
+                                    // By default, show a loading spinner.
+                                    return CircularProgressIndicator();
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
