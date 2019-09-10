@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:lifecore_flutter/login/loginPage.dart';
+// import 'package:lifecore_flutter/login/loginPage.dart';
 import 'package:lifecore_flutter/setting/setting.dart';
 import 'post.dart';
 import 'email.dart';
@@ -16,9 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String productId = "LCWF19JL001";
+  String productId = "LCWF19JL777";
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   var now = DateTime.now();
   var year = DateTime.now().year.toString() + '년 ';
@@ -60,13 +60,55 @@ class _HomePageState extends State<HomePage> {
     refresh = fetchPost(productId);
   }
 
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "오늘의 살균수 사용량",
+              textScaleFactor: 0.9,
+            ),
+            content: FutureBuilder<Post>(
+              future: refresh,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  int water = snapshot.data.water;
+                  double waterdouble = water / 100;
+
+                  return Text(
+                    '오늘의 살균수 사용량은 ' +
+                        waterdouble.roundToDouble().toString() +
+                        'L 입니다.\n세계 보건기구가 제안하는\n하루 물 섭취 권장량은 1.5 ~ 2.0L입니다.',
+                    textScaleFactor: 1.05,
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                // By default, show a loading spinner.
+                return CircularProgressIndicator();
+              },
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('닫기'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Center(
           child: Text(
-            '       라이프코어 살균수기',
+            '라이프코어 살균수기',
             textScaleFactor: 1.25,
           ),
         ),
@@ -76,7 +118,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.orange,
             height: 3.0,
           ),
-          preferredSize: Size.fromHeight(16.0),
+          preferredSize: Size.fromHeight(0.0),
         ),
         // actions: <Widget>[
         //   IconButton(
@@ -92,20 +134,6 @@ class _HomePageState extends State<HomePage> {
         //     },
         //   ),
         // ],
-        actions: <Widget>[
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Text('새로고침'),
-                value: 1,
-              ),
-              PopupMenuItem(
-                child: Text('로그아웃'),
-                value: 2,
-              ),
-            ],
-          )
-        ],
       ),
       body: Column(
         children: <Widget>[
@@ -143,6 +171,22 @@ class _HomePageState extends State<HomePage> {
                               '오늘의 살균수 사용량',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                            Padding(
+                              padding: EdgeInsets.all(12.0),
+                            ),
+                            OutlineButton(
+                              child: Text(
+                                '상세보기 >',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              onPressed: () {
+                                _showDialog();
+                              },
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                           ],
                         ),
                         Column(
@@ -157,19 +201,26 @@ class _HomePageState extends State<HomePage> {
                               '필터잔량',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                            Padding(
+                              padding: EdgeInsets.all(12.0),
+                            ),
+                            OutlineButton(
+                              child: Text(
+                                '새로고침 >',
+                                style: TextStyle(color: Colors.tealAccent[400]),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  refresh = fetchPost(productId);
+                                });
+                              },
+                              borderSide:
+                                  BorderSide(color: Colors.tealAccent[400]),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                           ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 180.0,
-                          width: 10.0,
-                          child: Card(
-                            color: Colors.black12,
-                          ),
                         ),
                       ],
                     ),
@@ -205,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                                       return Text("${snapshot.error}");
                                     }
                                     // By default, show a loading spinner.
-                                    return CircularProgressIndicator();
+                                    return Text('');
                                   },
                                 ),
                               ),
@@ -240,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                                       return Text("${snapshot.error}");
                                     }
                                     // By default, show a loading spinner.
-                                    return CircularProgressIndicator();
+                                    return Text('');
                                   },
                                 ),
                               ),
@@ -280,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         RaisedButton(
                           child: Text(
-                            '필터구독 >',
+                            '필터교체 >',
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
@@ -312,11 +363,6 @@ class _HomePageState extends State<HomePage> {
                                 MaterialPageRoute(
                                     builder: (context) => Setting()));
                           },
-                          // logout
-                          // onPressed: () {
-                          //   FirebaseAuth.instance.signOut();
-                          //   _googleSignIn.signOut();
-                          // },
                           color: Colors.lightBlue[200],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
