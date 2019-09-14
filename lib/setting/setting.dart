@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lifecore_flutter/login/loginPage.dart';
 
 class Setting extends StatefulWidget {
@@ -138,10 +140,10 @@ class _SettingState extends State<Setting> {
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                            context,
+                        Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()));
+                                builder: (context) => LoginPage()),
+                            (Route<dynamic> route) => false);
                       },
                       color: Colors.redAccent,
                       shape: RoundedRectangleBorder(
