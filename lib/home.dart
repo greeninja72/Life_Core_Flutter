@@ -70,12 +70,11 @@ class _HomePageState extends State<HomePage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   int water = snapshot.data.water;
-                  double waterdouble = water / 100;
 
                   return Text(
                     '오늘의 살균수 사용량은 ' +
-                        waterdouble.roundToDouble().toString() +
-                        'L 입니다.\n세계 보건기구가 제안하는 하루 물 섭취 권장량은 1.5 ~ 2.0L입니다.',
+                        water.toString() +
+                        '.0L 입니다.\n세계 보건기구가 제안하는 하루 물 섭취 권장량은 1.5 ~ 2.0L입니다.',
                     textScaleFactor: 1.05,
                   );
                 } else if (snapshot.hasError) {
@@ -165,11 +164,8 @@ class _HomePageState extends State<HomePage> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       int water = snapshot.data.water;
-                                      double waterDouble = water / 100;
-
                                       return Text(
-                                        waterDouble.roundToDouble().toString() +
-                                            'L',
+                                        water.toString() + '.0L',
                                         textScaleFactor: 1.5,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(color: Colors.white),
@@ -240,10 +236,7 @@ class _HomePageState extends State<HomePage> {
                                       double filterDouble = filter / 4000 * 100;
 
                                       return Text(
-                                        filterDouble
-                                                .roundToDouble()
-                                                .toString() +
-                                            '%',
+                                        filterDouble.toStringAsFixed(1) + '%',
                                         textAlign: TextAlign.center,
                                         textScaleFactor: 1.25,
                                         style: TextStyle(
